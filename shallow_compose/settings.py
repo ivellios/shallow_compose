@@ -142,3 +142,27 @@ EMAIL_USE_TLS = False
 # EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 CELERY_BROKER_URL = 'amqp://guest:guest@{}:5672//'.format(read_env("RABBIT_HOST"))
+
+
+LOGGING = {
+    'version': 1,
+    'handlers': {
+        'gelf': {
+            'class': 'graypy.GELFUDPHandler',
+            'host': 'graylog',
+            'port': 12201,
+        },
+    },
+    'loggers': {
+        'shallow_compose': {
+            'handlers': ['gelf'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'django': {
+            'handlers': ['gelf'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}

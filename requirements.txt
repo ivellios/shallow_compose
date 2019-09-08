@@ -1,3 +1,4 @@
 django==2.2.5
 psycopg2-binary
 celery==4.3
+graypy==1.2.0
