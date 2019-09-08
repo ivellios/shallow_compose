@@ -2,10 +2,12 @@ from __future__ import absolute_import, unicode_literals
 import os
 from celery import Celery
 
+read_env = lambda e, d=None: os.environ[e] if e in os.environ else d
+
 # set the default Django settings module for the 'celery' program.
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'shallow_compose.settings')
 
-app = Celery('shallow_compose', broker='pyamqp://guest@rabbit//')
+app = Celery('shallow_compose')  #, broker='pyamqp://guest@{}//'.format(read_env('RABBIT_HOST')))
 
 # Using a string here means the worker doesn't have to serialize
 # the configuration object to child processes.

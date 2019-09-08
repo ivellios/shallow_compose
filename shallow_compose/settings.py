@@ -141,4 +141,4 @@ EMAIL_USE_TLS = False
 
 # EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
-broker_url = 'pyamqp://guest@rabbit//'
+CELERY_BROKER_URL = 'amqp://guest:guest@{}:5672//'.format(read_env("RABBIT_HOST"))

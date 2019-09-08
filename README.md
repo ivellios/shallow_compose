@@ -17,6 +17,7 @@ uses django email backend setup to send email.
 
 ### Setup & usage
 
+1. Create python virtualenv for python 3.7 on your host machine 
 1. Run `pip install -r requirements.txt` to install required libraries
 1. Run `./manage.py migrate` to migrate database
 1. Run `./manage.py createsuperuser` to create admin user

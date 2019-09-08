@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import Message
-from tasks import send_email
+from .tasks import send_email
 # Register your models here.
 
 
