@@ -1,5 +1,6 @@
 version: "3.7"
 
+
 x-app:
   &app
   build: .
@@ -10,25 +11,41 @@ x-app:
   depends_on:
     - db
     - rabbit
-  env_file:
-    - .env
+    - email
+  env_file: .env
+
 
 services:
   web:
     <<: *app
+    networks:
+      - messenger
     ports:
       - "8000:8000"
+
   celery:
     <<: *app
     command: "celery -A ${PROJECT_NAME} worker -l info"
+    networks:
+      - messenger
+      - sender
+
   rabbit:
     image: rabbitmq
+    networks:
+      - messenger
+
   db:
     image: postgres:10.1-alpine
+    networks:
+      - messenger
     volumes:
       - postgres_data:/var/lib/postgresql/data/
+
   email:
     image: python:3.7-alpine
+    networks:
+      - sender
     command: "python -m smtpd -c DebuggingServer -n 0.0.0.0:${EMAIL_PORT}"
     env_file:
       - .env
@@ -37,3 +54,7 @@ volumes:
   postgres_data:
   local_bin:
   site_packages:
+
+networks:
+  messenger:
+  sender:
