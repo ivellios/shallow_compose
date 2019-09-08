@@ -1,5 +1,5 @@
-# shallow_compose
-Shallow dive into docker-compose - demo repository for the talk on use of docker-compose
+# Shallow Compose
+Shallow dive into docker-compose - a demo repository for my tech talk presenting use case for docker-compose.
 
 ## The django project
 
