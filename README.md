@@ -17,6 +17,7 @@ uses django email backend setup to send email.
 
 ### Setup & usage
 
+1. Run `pip install -r requirements.txt` to install required libraries
 1. Run `./manage.py migrate` to migrate database
 1. Run `./manage.py createsuperuser` to create admin user
 1. Run `./manage.py runserver 0.0.0.0:8000` to run server at port `8000`
@@ -24,3 +25,12 @@ uses django email backend setup to send email.
 1. Add new Message object
 1. On the Messages list select message and from a dropdown list of actions
 pick send to console or email. Click _go_ to run action.
+
+
+## Using docker-compose
+
+1. Rename `.env.example` to `.env`
+1. Run `docker-compose build`
+1. Run `docker-compose run --rm web bash` and go through above setup 
+instructions.
+1. Run `docker-compose up`

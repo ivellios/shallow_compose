@@ -1,0 +1,39 @@
+version: "3.7"
+
+x-app:
+  &app
+  build: .
+  volumes:
+    - "~/.virtualenvs/shallow_compose/lib/python3.7/site-packages:/usr/local/lib/python3.7/site-packages"
+    - "./:/code"
+    - "local_bin:/usr/local/bin"
+  depends_on:
+    - db
+    - rabbit
+  env_file:
+    - .env
+
+services:
+  web:
+    <<: *app
+    ports:
+      - "8000:8000"
+  celery:
+    <<: *app
+    command: "celery -A shallow_compose worker -l info"
+  rabbit:
+    image: rabbitmq
+  db:
+    image: postgres:10.1-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+  email:
+    image: python:3.7
+    command: "python -m smtpd -c DebuggingServer -n 0.0.0.0:${EMAIL_PORT}"
+    env_file:
+      - .env
+    stop_grace_period: 0s
+
+volumes:
+  postgres_data:
+  local_bin:
