@@ -1,0 +1,35 @@
+version: "3.7"
+
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - "./:/code"
+    env_file: .env
+    depends_on:
+      - db
+      - email
+
+  db:
+    image: postgres:10.1-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+
+  email:
+    image: python:3.7-alpine
+    command: "python -m smtpd -c DebuggingServer -n 0.0.0.0:${EMAIL_PORT}"
+    env_file:
+      - .env
+
+
+
+volumes:
+  postgres_data:
+
+
+# env_file
+# message send demo
+# adding mail [uncomment send_directly_to_mail]
+# demo!

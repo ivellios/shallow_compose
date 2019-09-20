@@ -1,0 +1,44 @@
+version: "3.7"
+
+x-app:
+  &app
+  build: .
+  volumes:
+    - "./:/code"
+  env_file: .env
+  depends_on:
+    - db
+    - email
+    - rabbit
+
+
+services:
+  web:
+    <<: *app
+    ports:
+      - "8000:8000"
+
+  db:
+    image: postgres:10.1-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+
+  email:
+    image: python:3.7-alpine
+    command: "python -m smtpd -c DebuggingServer -n 0.0.0.0:${EMAIL_PORT}"
+    env_file:
+      - .env
+
+  rabbit:
+    image: rabbitmq
+
+  celery:
+    <<: *app
+    command: "celery -A ${PROJECT_NAME} worker -l info"
+
+
+volumes:
+  postgres_data:
+
+# add x-app &app <<: *app
+# remove image

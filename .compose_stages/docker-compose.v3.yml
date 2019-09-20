@@ -1,0 +1,32 @@
+version: "3.7"
+
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - "./:/code"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - PYTHONDONTWRITEBYTECODE=1
+      - DB_ENGINE=django.db.backends.postgresql
+      - DB_NAME=postgres
+      - DB_USER=postgres
+      - DB_HOST=db
+    depends_on:
+      - db
+  db:
+    image: postgres:10.1-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+
+volumes:
+  postgres_data:
+
+# adding postgres
+# with named volume
+# environment vars for passing
+# depends_on!
+# run web python manage.py migrate
+# run web python manage.py createsuperuser

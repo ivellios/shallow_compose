@@ -1,0 +1,15 @@
+version: "3.7"
+
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - "./:/code"
+
+# run web python manage.py migrate
+# run web python manage.py createsuperuser
+# now our base is saved!
+# down
+# up

@@ -1,0 +1,45 @@
+version: "3.7"
+
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - "./:/code"
+    env_file: .env
+    depends_on:
+      - db
+      - email
+      - rabbit
+
+  db:
+    image: postgres:10.1-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+
+  email:
+    image: python:3.7-alpine
+    command: "python -m smtpd -c DebuggingServer -n 0.0.0.0:${EMAIL_PORT}"
+    env_file:
+      - .env
+
+  rabbit:
+    image: rabbitmq
+
+  celery:
+    image: shallow_compose_web:latest
+    command: "celery -A ${PROJECT_NAME} worker -l info"
+    volumes:
+      - "./:/code"
+    env_file: .env
+    depends_on:
+      - db
+      - email
+      - rabbit
+
+volumes:
+  postgres_data:
+
+# adding rabbit
+# adding celery [using already-built image]

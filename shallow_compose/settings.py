@@ -84,12 +84,12 @@ DATABASES = {
     #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     # }
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
+        "ENGINE": read_env("DB_ENGINE", "django.db.backends.sqlite3"),
         # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        "NAME": read_env("DB_NAME"),  # Or path to database file if using sqlite3.
-        "USER": read_env("DB_USER"),  # Not used with sqlite3.
-        "PASSWORD": read_env("DB_PASS"),  # Not used with sqlite3.
-        "HOST": read_env("DB_HOST"),  # Set to empty string for localhost. Not used with sqlite3.
+        "NAME": read_env("DB_NAME", "database.sqlite3"),  # Or path to database file if using sqlite3.
+        "USER": read_env("DB_USER", ""),  # Not used with sqlite3.
+        "PASSWORD": read_env("DB_PASS", ""),  # Not used with sqlite3.
+        "HOST": read_env("DB_HOST", ""),  # Set to empty string for localhost. Not used with sqlite3.
         "PORT": "",  # Set to empty string for default. Not used with sqlite3.
     }
 }
@@ -133,12 +133,12 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-EMAIL_HOST = read_env("EMAIL_HOST")
-EMAIL_PORT = read_env("EMAIL_PORT")
+EMAIL_HOST = read_env("EMAIL_HOST", "")
+EMAIL_PORT = read_env("EMAIL_PORT", "")
 EMAIL_HOST_USER = ""
 EMAIL_HOST_PASSWORD = ""
 EMAIL_USE_TLS = False
 
 # EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
-CELERY_BROKER_URL = 'amqp://guest:guest@{}:5672//'.format(read_env("RABBIT_HOST"))
+CELERY_BROKER_URL = 'amqp://guest:guest@{}:5672//'.format(read_env("RABBIT_HOST", ""))
