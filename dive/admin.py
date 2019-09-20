@@ -20,5 +20,6 @@ class MessageAdmin(admin.ModelAdmin):
 
     def send_to_mail(self, request, queryset):
         for message in queryset:
+            # import pdb; pdb.set_trace()  # demo for attaching to container with stdin
             print('Sending message to {} - content: {}'.format(message.to, message.text))
             send_email.delay(message.pk)

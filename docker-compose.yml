@@ -21,6 +21,8 @@ services:
       - "8000:8000"
     networks:
       - messenger
+    stdin_open: true
+    tty: true
 
   db:
     image: postgres:10.1-alpine
