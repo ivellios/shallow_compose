@@ -1,20 +1,20 @@
 # Shallow Compose
-Shallow dive into docker-compose - a demo repository for my tech talk presenting use case for docker-compose.
+Shallow dive into docker-compose - a demo repository for my tech talk presenting use case of docker-compose.
 
 ## The django project
 
 This project has simple functionality for the demo purposes. It provides
 model Message for creating e-mail messages with receipient address 
-in one field and text to send in the second. 
+in one field and text to be sent in the second. 
 
-Django admin provides two actions for demonstration: 
+Django admin provides three actions for the demonstration: 
 - _send to console_ - displays message and recipient in the console log 
 - _send directly to mail_ - sends an e-mail to the recipient directly from django (will not work in the final stage due to network separation of django app from mail sending service)
 - _send to mail_ - sends an e-mail to the recipient by adding message to the queue and handling it in the celery worker
 
 The e-mail is not sent right away. Instead the celery task (with Rabbit 
 queue between) is scheduled and ran by celery worker later. The worker
-uses django email backend setup to send email.
+uses django email backend setup to send the email.
 
 ## Using docker-compose
 
@@ -29,7 +29,7 @@ uses django email backend setup to send email.
 pick send to console or email. Click _go_ to run action.
 1. Check email displayed in the logs
 
-Also check `.compose_stages` dir for different stages of building 
+Also check `.compose_stages` dir for different stages of the docker-compose development. 
 
 ### Manual setup & usage without docker-compose
 
