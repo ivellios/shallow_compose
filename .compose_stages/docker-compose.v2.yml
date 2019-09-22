@@ -8,6 +8,7 @@ services:
     volumes:
       - "./:/code"
 
+# add volumes
 # run web python manage.py migrate
 # run web python manage.py createsuperuser
 # now our base is saved!
